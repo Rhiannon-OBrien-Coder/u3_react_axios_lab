@@ -1,34 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import axios from 'axios'
+import StarShips from './components/StarshipList'
+import NavBar from './components/Nav'
+import { BASE_URL } from './globals'
+import { useState, useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [ships, setShips] = useState([])
+
+  useEffect(() => {
+    const getShips = async () => {
+      const response = await axios.get(`${BASE_URL}/starships`)
+      setShips(response.data.results)
+      console.log(response.data.results)
+    }
+  
+    getShips()
+  }, [])
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <h1>Welcome to our Page!</h1>
+    <NavBar />
+    <StarShips ships={ships} />
+    <Routes>
+      <Route path="/" element={<h2>Welcome to our Page</h2>} />
+      <Route path="/starships" element={<StarShips ships={ships} />} />
+      {/* <Route
+        path="/pokemon/:pokemonId"
+        element={<PokemonDetails pokemon={pokemon} />}
+      /> */}
+      <Route path="*" element={<h2>404 Error: Whoops, nothing here!</h2>} />
+    </Routes> 
+  </>
   )
 }
 
