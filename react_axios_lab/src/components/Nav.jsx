@@ -8,10 +8,16 @@ const NavBar = () => {
                     <Link to='/'>Home</Link>
                 </li>
                 <li>
-                    <Link to='/pokemon'>Pokemon</Link>
+                    <Link to='/starships'>Starships</Link>
                 </li>
                 <li>
-                    <Link to="/pokemon/new">New Pokemon</Link>
+                    <Link to="/films">Films</Link>
+                </li>
+                <li>
+                    <Link to="/planets">Planets</Link>
+                </li>
+                <li>
+                    <Link to="/characters">Characters</Link>
                 </li>
             </ul>
         </nav>
