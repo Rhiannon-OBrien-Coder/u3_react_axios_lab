@@ -8,7 +8,6 @@ const Characters = (props) => {
                 props.characters.map((c)=>(
                     <div key={c.name}>
                         <h2>{c.name}</h2>
-                        <h4>Species: {c.species}</h4>
                         <h4>Gender: {c.gender}</h4>
                         <h4>Height: {c.height}</h4>
                         <h4>Hair Color: {c.hair_color}</h4>
