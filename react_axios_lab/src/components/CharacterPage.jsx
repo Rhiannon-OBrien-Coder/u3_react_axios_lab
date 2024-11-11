@@ -2,33 +2,31 @@ import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { BASE_URL } from "../globals"
 import axios from "axios"
+import { Link } from "react-router-dom"
 
 const CharacterPage = () => {
-    const { starshipId } = useParams()
-    const [starshipData, setStarshipData] = useState()
-    console.log(starshipId)
+    const { characterId } = useParams()
+    const [characteData, setCharacterData] = useState()
 
     useEffect(()=>{
-        const getStarship = async() => {
-            console.log('this function is called')
-            const response = await axios.get(`${BASE_URL}/api/starships/${starshipId}`)
-            console.log(response)
-            setStarshipData(response.data)
+        const getFilm = async() => {
+            const response = await axios.get(`${BASE_URL}/api/people/${characterId}`)
+            setCharacterData(response.data)
         }
-        getStarship()
+        getFilm()
         }, [])
-    if (!starshipData) {
+    if (!characteData) {
         return (<h1> Loading Please Wait </h1>)
     } else {
             return (
                 <>
-                    <h2>{starshipData.name}</h2>
-                    <h4>Model: {starshipData.model}</h4>
-                    <h4>Manufacturer: {starshipData.manufacturer}</h4>
-                    <h4>Price: {starshipData.cost_in_credits}</h4>
-                    <h4>Crew: {starshipData.crew}</h4>
-                    <h4>Passengers: {starshipData.passengers}</h4>
-                    <h4>Starship Class: {starshipData.starship_class}</h4>
+                        <h2>{characteData.name}</h2>
+                        <h4>Gender: {characteData.gender}</h4>
+                        <h4>Height: {characteData.height}</h4>
+                        <h4>Hair Color: {characteData.hair_color}</h4>
+                        <h4>Skin Color: {characteData.skin_color}</h4>
+                        <h4>Eye Color: {characteData.eye_color}</h4>
+                        <Link to='/characters'>Back to all Characters</Link>
                 </>
         )
     }

@@ -1,23 +1,30 @@
+import { useNavigate } from "react-router-dom"
+
 const Characters = (props) => {
-    if (!props.characters) {
-    return (<h1> Loading Please Wait </h1>)
-    } else {
-            return (
-            <div>
-                {
-                props.characters.map((c)=>(
-                    <div key={c.name}>
-                        <h2>{c.name}</h2>
-                        <h4>Gender: {c.gender}</h4>
-                        <h4>Height: {c.height}</h4>
-                        <h4>Hair Color: {c.hair_color}</h4>
-                        <h4>Skin Color: {c.skin_color}</h4>
-                        <h4>Eye Color: {c.eye_color}</h4>
-                    </div>  
-                ))
-                }
-            </div>
-        )
+    let navigate = useNavigate()
+
+    const showCharacter = (key) => {
+        const aCharacterUrl = props.characters[key].url
+        const newUrl = new URL (aCharacterUrl)
+        const pathname = newUrl.pathname
+        const segments = pathname.split('/')
+        const characterId = segments[segments.length - 2]
+        console.log(characterId)
+        navigate(`${characterId}`)
     }
+
+    return(
+    <div className="characters">
+        <h2>List of Characters</h2>
+        {
+        props.characters.map((c, key) => (
+            <div key={key} onClick={()=>showCharacter(key)} className="card">
+                <h3>{c.name}</h3>
+            </div>
+        ))
+        }
+    </div>
+    )
 }
+
     export default Characters
