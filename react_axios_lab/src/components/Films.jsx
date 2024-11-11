@@ -1,22 +1,30 @@
+import { useNavigate } from "react-router-dom"
+
 const Films = (props) => {
-    if (!props.films) {
-    return (<h1> Loading Please Wait </h1>)
-    } else {
-            return (
-            <div>
-                {
-                props.films.map((film)=>(
-                    <div key={film.title}>
-                        <h2>{film.title}</h2>
-                        <h4>Episode: {film.episode_id}</h4>
-                        <h4>Opening Crawl: {film.opening_crawl}</h4>
-                        <h4>Producers: {film.producer}</h4>
-                        <h4>Release Date: {film.release_date}</h4>
-                    </div>  
-                ))
-                }
-            </div>
-        )
+    let navigate = useNavigate()
+
+    const showFilm = (key) => {
+        const aFilmUrl = props.films[key].url
+        const newUrl = new URL (aFilmUrl)
+        const pathname = newUrl.pathname
+        const segments = pathname.split('/')
+        const filmId = segments[segments.length - 2]
+        console.log(filmId)
+        navigate(`${filmId}`)
     }
+
+    return(
+    <div className="films">
+        <h2>List of Films</h2>
+        {
+        props.films.map((f, key) => (
+            <div key={key} onClick={()=>showFilm(key)} className="card">
+                <h3>{f.title}</h3>
+            </div>
+        ))
+        }
+    </div>
+    )
 }
-    export default Films
+
+export default Films

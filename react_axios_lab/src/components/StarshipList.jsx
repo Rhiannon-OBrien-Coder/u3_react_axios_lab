@@ -1,25 +1,45 @@
-const StarShips = (props) => {
-    if (!props.ships) {
-    return (<h1> Loading Please Wait </h1>)
-    } else {
-            return (
-            <div>
-                {
-                props.ships.map((ship)=>(
-                    <div key={ship.name}>
-                        <h2>{ship.name}</h2>
-                        <h4>Model: {ship.model}</h4>
-                        <h4>Manufacturer: {ship.manufacturer}</h4>
-                        <h4>Price: {ship.cost_in_credits}</h4>
-                        <h4>Crew: {ship.crew}</h4>
-                        <h4>Passengers: {ship.passengers}</h4>
-                        <h4>Starship Class: {ship.starship_class}</h4>
-                    </div>  
-                ))
-                }
-            </div>
-        )
+import { useState, useEffect } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
+
+const StarShips = () => {
+
+    const [starships, setStarships] = useState([])
+
+    useEffect(()=>{
+        const getStarships = async() => {
+        const response = await axios.get(`https://swapi.dev/api/starships/`)
+        setStarships(response.data.results)
     }
-  }
+    getStarships()
+    }, [])
+
+    let navigate = useNavigate()
+
+    const showShip = (key) => {
+        const aShipUrl = starships[key].url
+        const newUrl = new URL (aShipUrl)
+        console.log(newUrl)
+        const pathname = newUrl.pathname
+        const segments = pathname.split('/')
+        console.log(segments)
+        const shipId = segments[segments.length - 2]
+        console.log(shipId)
+        navigate(`${shipId}`)
+    }
+
+    return(
+    <div className="starship">
+        <h2>List of Starships</h2>
+        {
+        starships.map((starship, key) => (
+            <div key={key} onClick={()=>showShip(key)} className="card">
+                <h3>{starship.name}</h3>
+            </div>
+        ))
+        }
+    </div>
+    )
+}
 
   export default StarShips
